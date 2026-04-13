@@ -2139,7 +2139,7 @@ end
 
 --[[
 
-0x4 = "x9f3Kq72LmZ8pQ4vT1aW0rE6YhC5uJbNsD8gH2F7kPqXzR3mV9tLQ7nP2zV8cX4aB6dE9fG1hJ3kL5mN8pQwR7tY2uI5oP8sD"
-loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/stxdevs/0x56756C74757265/refs/heads/0x1/0x416E6172636879.lua"))(0x4)
+Ox4 = "x9f3Kq72LmZ8pQ4vT1aW0rE6YhC5uJbNsD8gH2F7kPqXzR3mV9tLQ7nP2zV8cX4aB6dE9fG1hJ3kL5mN8pQwR7tY2uI5oP8sD"
+loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/stxdevs/0x56756C74757265/refs/heads/0x1/0x416E6172636879.lua"))(Ox4)
 
 ]]--
