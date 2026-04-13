@@ -444,22 +444,22 @@ if string.find(executor, "Xeno") or string.find(executor, "Solara") then
     return
 end
 
-local 0x4 = ...
+local Ox4 = ...
 
-local function validateKey(0x4)
+local function validateKey(Ox4)
     local validKeys = {
-        "x9f3Kq72LmZ8pQ4vT1aW0rE6YhC5uJbNsD8gH2F7kPqXzR3mV9tLQ7nP2zV8cX4aB6dE9fG1hJ3kL5mN8pQwR7tY2uI5oP8sD", -- 1
-        "dLN7dPaXvnIy0romgrEQKxwWqwbXnocbrkGGnbOhyy9dx8fVDFZfOowmKRsW51jRyqDoKGujfWrI1EwNUmpK4rPrHvze9hk7P", -- 2
-        "RQq3XuUvyCXGpDEnkRUYY8PTpeGg4eyVY6szirqyMLnhxkf7umzyLo8HwWBXUeIwQXBi6MV84gZEgWQPdRXMO5v7nIDaJTV52", -- 3
-        "cFtGjZNSVTqPOHtuHR7WDe3pANIe2Cc7m3gQ6wBrFWZ9bh3fb9YetqPFjuthiaenx4L7Zqqb43KS0pOj6ftDnPmFzBazGMy1a", -- 4
-        "DYBG5vg6L1SEppf0OHRodCq2oTG33muhBSiwmCt6pvx9m0TjnBEcxLK32RTyGcfvNoIQcJstTy4MHmOFeKxXt0gzp3d2HJuxm", -- 5
-        "WXV6EB9mWygFSdF4afmNvA4ZcleaRVDiErzv3tvUvPf9XPpDWrkNxKJDb4xs2ED7hiC4VigPA3o4sgzNjakjBQWaREwA143tL", -- 6
-        "JG7q947UZgGlcxO7r49Z4Wmr3L39jc9gKSXeRtYAi1dcNn5J4bnTfTvF2nx7j1RwvzFrDaL714WwhqSft56cjWvSLvriauJOk", -- 7
-        "J1E23IT8oWNcidtCsARmAFzYWu9Nv5u3HMdVp2J2ABHZ3zaFLTmqP0Bx7zqNiNH0lrdNaQCUZgtvXLgcNBVGbQzRwfy8TmBJI", -- 8
+        "x9f3Kq72LmZ8pQ4vT1aW0rE6YhC5uJbNsD8gH2F7kPqXzR3mV9tLQ7nP2zV8cX4aB6dE9fG1hJ3kL5mN8pQwR7tY2uI5oP8sD",
+        "dLN7dPaXvnIy0romgrEQKxwWqwbXnocbrkGGnbOhyy9dx8fVDFZfOowmKRsW51jRyqDoKGujfWrI1EwNUmpK4rPrHvze9hk7P",
+        "RQq3XuUvyCXGpDEnkRUYY8PTpeGg4eyVY6szirqyMLnhxkf7umzyLo8HwWBXUeIwQXBi6MV84gZEgWQPdRXMO5v7nIDaJTV52",
+        "cFtGjZNSVTqPOHtuHR7WDe3pANIe2Cc7m3gQ6wBrFWZ9bh3fb9YetqPFjuthiaenx4L7Zqqb43KS0pOj6ftDnPmFzBazGMy1a",
+        "DYBG5vg6L1SEppf0OHRodCq2oTG33muhBSiwmCt6pvx9m0TjnBEcxLK32RTyGcfvNoIQcJstTy4MHmOFeKxXt0gzp3d2HJuxm",
+        "WXV6EB9mWygFSdF4afmNvA4ZcleaRVDiErzv3tvUvPf9XPpDWrkNxKJDb4xs2ED7hiC4VigPA3o4sgzNjakjBQWaREwA143tL",
+        "JG7q947UZgGlcxO7r49Z4Wmr3L39jc9gKSXeRtYAi1dcNn5J4bnTfTvF2nx7j1RwvzFrDaL714WwhqSft56cjWvSLvriauJOk",
+        "J1E23IT8oWNcidtCsARmAFzYWu9Nv5u3HMdVp2J2ABHZ3zaFLTmqP0Bx7zqNiNH0lrdNaQCUZgtvXLgcNBVGbQzRwfy8TmBJI",
     }
 
     for _, key in ipairs(validKeys) do
-        if 0x4 == key then
+        if Ox4 == key then
             return true
         end
     end
@@ -467,7 +467,7 @@ local function validateKey(0x4)
     return false
 end
 
-if validateKey(0x4) then
+if validateKey(Ox4) then
 
 --[═════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════]--
 
