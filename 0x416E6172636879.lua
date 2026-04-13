@@ -21,7 +21,7 @@ local function fuhenvlogging1()
         end
     )
     if not (ok and passed) then
-        warn("\n Auth 1\n Auth 2\n Protected By VultureStack")
+        warn("0x50726F7465637465642042792056756C74757265537461636B")
         pcall(
             function()
                 local env = getfenv(0)
@@ -885,121 +885,7 @@ end)
    --Universal Spinbot
 --[════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════]--
 
-CombatSpinRight  = CharTab:AddRightGroupbox("Spinbot")
 
-local Svc = {
-    Run = game:GetService("RunService"),
-    LP  = game:GetService("Players").LocalPlayer,
-}
-
-local S = {
-    gyro        = nil,
-    connection  = nil,
-    silentSpeed = 15,
-    cframeSpeed = 50,
-    activeMode  = nil,
-    angle       = 0,
-}
-
-CombatSpinRight:AddToggle("SilentSpinbot",       { Text = "Silent Spinbot",   Default = false })
-CombatSpinRight:AddToggle("CFrameSpinbot",        { Text = "CFrame Spinbot",   Default = false })
-CombatSpinRight:AddSlider("SilentSpinSpeedSlider", { Text = "Silent Spin Speed", Default = 15, Min = 1, Max = 250, Rounding = 0 })
-CombatSpinRight:AddSlider("CFrameSpinSpeedSlider", { Text = "CFrame Spin Speed", Default = 50,  Min = 1, Max = 150,  Rounding = 0 })
-
-local function getParts()
-    local c = Svc.LP.Character
-    if not c then return nil, nil end
-    return c:FindFirstChild("HumanoidRootPart"), c:FindFirstChildOfClass("Humanoid")
-end
-
-local function cleanup()
-    if S.connection then S.connection:Disconnect() S.connection = nil end
-    if S.gyro then S.gyro:Destroy() S.gyro = nil end
-    local _, h = getParts()
-    if h then h.AutoRotate = true end
-    S.activeMode = nil
-    S.angle = 0
-end
-
-local function startSilent()
-    cleanup()
-    local hrp, hum = getParts()
-    if not hrp or not hum then return end
-    S.activeMode = "Silent"
-    hum.AutoRotate = false
-
-    local att = Instance.new("Attachment")
-    att.Name   = "SilentSpinAttachment"
-    att.Parent = hrp
-
-    local ao = Instance.new("AlignOrientation")
-    ao.Name            = "SilentSpinGyro"
-    ao.Mode            = Enum.OrientationAlignmentMode.OneAttachment
-    ao.Attachment0     = att
-    ao.MaxTorque       = 1e6
-    ao.Responsiveness  = 50
-    ao.RigidityEnabled = false
-    ao.Parent          = hrp
-
-    S.gyro = ao
-
-    S.connection = Svc.Run.RenderStepped:Connect(function(dt)
-        if not hrp or not hrp.Parent then return end
-        S.angle = (S.angle + S.silentSpeed * dt * 60) % 360
-        ao.CFrame = CFrame.new(hrp.Position) * CFrame.Angles(0, math.rad(S.angle), 0)
-    end)
-
-    ao.Destroying:Connect(function()
-        if att and att.Parent then att:Destroy() end
-    end)
-end
-
-local function startCFrame()
-    cleanup()
-    local hrp, hum = getParts()
-    if not hrp or not hum then return end
-    S.activeMode = "CFrame"
-    hum.AutoRotate = false
-
-    S.connection = Svc.Run.RenderStepped:Connect(function(dt)
-        if not hrp or not hrp.Parent then return end
-        S.angle = (S.angle + S.cframeSpeed * dt * 60) % 360
-        hrp.CFrame = CFrame.new(hrp.Position)
-            * CFrame.Angles(0, math.rad(S.angle), 0)
-            * CFrame.new(0, 0, -(hrp.CFrame.Position - hrp.CFrame.Position).Magnitude)
-    end)
-end
-
-local function activateMode(mode)
-    if mode == "Silent" then
-        if Toggles.CFrameSpinbot.Value then Toggles.CFrameSpinbot:SetValue(false) end
-        startSilent()
-    elseif mode == "CFrame" then
-        if Toggles.SilentSpinbot.Value then Toggles.SilentSpinbot:SetValue(false) end
-        startCFrame()
-    end
-end
-
-Toggles.SilentSpinbot:OnChanged(function(v)
-    if v then activateMode("Silent") elseif S.activeMode == "Silent" then cleanup() end
-end)
-
-Toggles.CFrameSpinbot:OnChanged(function(v)
-    if v then activateMode("CFrame") elseif S.activeMode == "CFrame" then cleanup() end
-end)
-
-Options.SilentSpinSpeedSlider:OnChanged(function(v) S.silentSpeed = v end)
-Options.CFrameSpinSpeedSlider:OnChanged(function(v) S.cframeSpeed = v end)
-
-Svc.LP.CharacterAdded:Connect(function()
-    local mode = S.activeMode
-    cleanup()
-    task.wait(1)
-    local c = Svc.LP.Character
-    if not c or not c:FindFirstChild("HumanoidRootPart") then return end
-    if mode == "Silent" then startSilent()
-    elseif mode == "CFrame" then startCFrame() end
-end)
 
 --[════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════]--
    --Universal Soft-Aim MAIN
@@ -2109,7 +1995,7 @@ getgenv().HWIDSpoofer = {
 }
 
 else
-    game:GetService("Players").LocalPlayer:Kick("Invalid Whitelist")
+    game:GetService("Players").LocalPlayer:Kick("Whitelist Tampering Detected")
 end
 
 --[[
@@ -2139,7 +2025,7 @@ end
 
 --[[
 
-Ox4 = "x9f3Kq72LmZ8pQ4vT1aW0rE6YhC5uJbNsD8gH2F7kPqXzR3mV9tLQ7nP2zV8cX4aB6dE9fG1hJ3kL5mN8pQwR7tY2uI5oP8sD"
-loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/stxdevs/0x56756C74757265/refs/heads/0x1/0x416E6172636879.lua"))(Ox4)
+0x4 = "x9f3Kq72LmZ8pQ4vT1aW0rE6YhC5uJbNsD8gH2F7kPqXzR3mV9tLQ7nP2zV8cX4aB6dE9fG1hJ3kL5mN8pQwR7tY2uI5oP8sD"
+loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/stxdevs/0x56756C74757265/refs/heads/0x1/0x416E6172636879.lua"))(0x4)
 
 ]]--
