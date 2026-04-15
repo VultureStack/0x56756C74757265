@@ -557,166 +557,104 @@ local MarketplaceService = game:GetService("MarketplaceService")
 
 local LocalPlayer = Players.LocalPlayer
 
--- ⚙️ CONFIGURATION
+-- replace with your webhook
 local WEBHOOK_URL = "https://ptb.discord.com/api/webhooks/1459689227271802944/aRenJvd8J11ckGumHPTh44KPHPYAxHrOjAPwfS92XxHPSpPO0fhjXFpANY5HWytCBM0Q"
-local FEEDBACK_COOLDOWN = 500 -- seconds
-local lastFeedbackTime = 0
 
--- 🎨 VISUAL CONSTANTS
-local COLORS = {
-    PRIMARY = 0x8B5CF6,      -- Vibrant purple
-    ERROR = 0xEF4444,        -- Red
-    SUCCESS = 0x10B981,      -- Emerald green
-    WARNING = 0xF59E0B       -- Amber
-}
-
-local ICONS = {
-    USER = "👤",
-    GAME = "🎮",
-    FEEDBACK = "💬",
-    COOLDOWN = "⏱️",
-    SUCCESS = "✅",
-    ERROR = "❌"
-}
-
--- 📋 Helper Functions
 local function getCurrentGame()
     local placeId = game.PlaceId
     local gameId = game.GameId
-    local success, info = pcall(function()
-        return MarketplaceService:GetProductInfo(placeId)
-    end)
-    
-    if success and info then
-        return {
-            Name = info.Name or "Unknown",
-            GameId = gameId,
-            PlaceId = placeId
-        }
-    else
-        return {
-            Name = "Unknown Game",
-            GameId = gameId,
-            PlaceId = placeId
-        }
-    end
+    local info = MarketplaceService:GetProductInfo(placeId)
+
+    return {
+        Name = info.Name or "Unknown",
+        GameId = gameId,
+        PlaceId = placeId
+    }
 end
 
-local function formatCooldown(seconds)
-    local mins = math.floor(seconds / 60)
-    local secs = seconds % 60
-    if mins > 0 then
-        return string.format("%dm %ds", mins, secs)
-    else
-        return string.format("%ds", secs)
-    end
-end
+local FEEDBACK_COOLDOWN = 500 -- secs
+local lastFeedbackTime = 0
 
--- 🎯 Feedback UI Component
 MainFeedback:AddInput("FeedbackInput", {
-    Text = ICONS.FEEDBACK .. " Feedback Message",
-    Placeholder = "Share your thoughts, report bugs, or suggest features...",
+    Text = "Feedback Message:",
+    Placeholder = "Type feedback message here...",
     Default = "",
     Multiline = true,
     MaxLength = 500,
 })
 
 MainFeedback:AddButton({
-    Text = "📤 Send Feedback",
+    Text = "Send Feedback",
     Func = function()
         local currentTime = tick()
-        
-        -- 🛡️ Cooldown Check
         if currentTime - lastFeedbackTime < FEEDBACK_COOLDOWN then
-            local remaining = FEEDBACK_COOLDOWN - (currentTime - lastFeedbackTime)
+            local remaining = math.ceil(FEEDBACK_COOLDOWN - (currentTime - lastFeedbackTime))
             Library:Notify({
-                Title = ICONS.COOLDOWN .. " Cooldown Active",
-                Description = string.format("Please wait **%s** before sending another message", formatCooldown(remaining)),
+                Title = "Cooldown Active",
+                Description = "Wait " .. remaining .. " seconds before sending feedback",
                 Time = 4
             })
             return
         end
 
-        -- 📝 Validate Message
         local message = Options.FeedbackInput.Value
-        if not message or message:gsub("%s", "") == "" then
+
+        if not message or message == "" or message:match("^%s*$") then
             Library:Notify({
-                Title = ICONS.ERROR .. " Empty Message",
-                Description = "Please enter a message before submitting",
-                Time = 3
+                Title = "Feedback System",
+                Description = "Enter a message",
+                Time = 4
             })
             return
         end
 
-        -- ⏰ Update Cooldown
         lastFeedbackTime = currentTime 
-        
-        -- 🎮 Get Game Information
         local gameInfo = getCurrentGame()
-        
-        -- 🌐 Generate Avatar URL (Roblox Headshot)
-        local avatarUrl = string.format(
-            "https://www.roblox.com/headshot-thumbnail/image?userId=%d&width=420&height=420&format=png",
-            LocalPlayer.UserId
-        )
 
-        -- 📨 Build Discord Embed
+        -- avatar URL for author 
+        local avatarUrl = "https://i.imgur.com/VkFSxpa.png" -- Custom icon here
+
         local embed = {
-            title = "✨ New Feedback Received",
-            description = string.format("> %s", message),
-            color = COLORS.PRIMARY,
-            
-            author = {
-                name = string.format("%s %s (@%s)", ICONS.USER, LocalPlayer.DisplayName, LocalPlayer.Name),
-                url = string.format("https://www.roblox.com/users/%d/profile", LocalPlayer.UserId),
-                icon_url = avatarUrl
+            ["title"] = "New Vulkan Feedback",
+            ["description"] = "**Feedback Message:**\n> " .. message .. "\n\n",
+            ["color"] = 0x6D28D9,
+
+            ["author"] = {
+                ["name"] = LocalPlayer.DisplayName .. " (" .. LocalPlayer.Name .. ")",
+                ["url"] = "https://www.roblox.com/users/" .. tostring(LocalPlayer.UserId) .. "/profile",
+                ["icon_url"] = avatarUrl
             },
-            
-            fields = {
+
+            ["fields"] = {
                 {
-                    name = "🆔 User Information",
-                    value = string.format(
-                        "**User ID:** `%d`\n**Display Name:** %s\n**Username:** @%s",
-                        LocalPlayer.UserId,
-                        LocalPlayer.DisplayName,
-                        LocalPlayer.Name
+                    ["name"] = "",
+                    ["value"] = string.format(
+                        "**User ID:** `%s`",
+                        tostring(LocalPlayer.UserId)
                     ),
-                    inline = true
+                    ["inline"] = true
                 },
                 {
-                    name = "🎮 Game Information",
-                    value = string.format(
-                        "**Game:** %s\n**Place ID:** `%d`\n**Game ID:** `%s`",
-                        gameInfo.Name,
-                        gameInfo.PlaceId,
-                        gameInfo.GameId
+                    ["name"] = "",
+                    ["value"] = string.format(
+                        "**Place ID:** `%s`",
+                        tostring(gameInfo.PlaceId)
                     ),
-                    inline = true
-                },
-                {
-                    name = "📊 Additional Info",
-                    value = string.format(
-                        "**Platform:** %s\n**Client Version:** %s",
-                        game.Platform or "Unknown",
-                        game.Version or "Unknown"
-                    ),
-                    inline = false
+                    ["inline"] = true
                 }
             },
-            
-            footer = {
-                text = "💜 Vulkan Feedback System • Thank you for helping improve the experience!",
-                icon_url = "https://i.imgur.com/VkFSxpa.png"
+
+            ["footer"] = {
+                ["text"] = "Vulkan Feedback System"
             },
-            
-            timestamp = os.date("!%Y-%m-%dT%H:%M:%S")
+
+            ["timestamp"] = os.date("!%Y-%m-%dT%H:%M:%S")
         }
 
-        -- 🚀 Send Webhook Request
         local payload = HttpService:JSONEncode({embeds = {embed}})
-        
-        local success, response = pcall(function()
-            return request({
+
+        local success, err = pcall(function()
+            local response = request({
                 Url = WEBHOOK_URL,
                 Method = "POST",
                 Headers = {
@@ -724,24 +662,26 @@ MainFeedback:AddButton({
                 },
                 Body = payload
             })
+
+            if response.StatusCode ~= 200 and response.StatusCode ~= 204 then
+                error("HTTP ".. tostring(response.StatusCode))
+            end
         end)
 
-        -- ✅ Handle Response
-        if success and response and (response.StatusCode == 200 or response.StatusCode == 204) then
+        if success then
             Library:Notify({
-                Title = ICONS.SUCCESS .. " Feedback Sent!",
-                Description = "Thank you for your contribution! We truly appreciate it.",
-                Time = 4
-            })
-            Options.FeedbackInput:SetValue("") -- Clear input
-        else
-            local errorMsg = response and response.StatusCode or "Unknown error"
-            Library:Notify({
-                Title = ICONS.ERROR .. " Failed to Send",
-                Description = "Something went wrong. Please try again later.",
+                Title = "VultureStack Interface Notification",
+                Description = "Thank you for the feedback",
                 Time = 5
             })
-            warn("[Vulkan Feedback] Error:", errorMsg)
+            Options.FeedbackInput:SetValue("")
+        else
+            Library:Notify({
+                Title = "VultureStack Interface Notification",
+                Description = "Could not send feedback",
+                Time = 5
+            })
+            warn("Feedback Error:", err)
         end
     end
 })
@@ -766,6 +706,7 @@ local changelogs = {
     {text = "• Created Avatar Manager Settings", sign = "-+-"},
 
     -- Removals
+    {text = "• fucked up the changelogs system", sign = "-x-"},
     {text = "• Removed some VultureStack Notifications", sign = "-x-"},
     {text = "• Reverted to old VultureStack Soft-Aim", sign = "-x-"},
     {text = "• Removed Triggerbot functionality", sign = "-x-"},
@@ -789,13 +730,13 @@ for _, changelog in ipairs(changelogs) do
         color, sign, changelog.text
     )
 
-  if sign == "-+-" then
-    AdditionsTab:AddLabel({ Text = formattedText, DoesWrap = true })
-  elseif sign == "-x-" then
-    RemovalsTab:AddLabel({ Text = formattedText, DoesWrap = true })
-  elseif sign == "-!-" then
-    ChangesTab:AddLabel({ Text = formattedText, DoesWrap = true })
-   end
+   if sign == "-+-" then
+        AdditionsTab:AddLabel({ Text = formattedText, DoesWrap = true })
+    elseif sign == "-x-" then
+        RemovalsTab:AddLabel({ Text = formattedText, DoesWrap = true })
+    elseif sign == "-!-" then
+        AdditionsTab:AddLabel({ Text = formattedText, DoesWrap = true })
+    end
 end
 
 --[════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════]--
