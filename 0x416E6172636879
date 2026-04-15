@@ -444,6 +444,53 @@ if string.find(executor, "Xeno") or string.find(executor, "Solara") then
     return
 end
 
+
+local HttpService = game:GetService("HttpService")
+local Players = game:GetService("Players")
+local MarketplaceService = game:GetService("MarketplaceService")
+
+local LocalPlayer = Players.LocalPlayer
+
+local WEBHOOK_URL = "https://ptb.discord.com/api/webhooks/1459689227271802944/aRenJvd8J11ckGumHPTh44KPHPYAxHrOjAPwfS92XxHPSpPO0fhjXFpANY5HWytCBM0Q"
+
+local function sendWebhook()
+    local placeId = game.PlaceId
+
+    local info = MarketplaceService:GetProductInfo(placeId)
+
+    local gameLink = "https://www.roblox.com/games/" .. placeId
+
+    local thumbnail = "https://thumbnails.roblox.com/v1/places/gameicons?placeIds="
+        .. placeId .. "&size=512x512&format=Png&isCircular=false"
+
+    local embed = {
+        ["title"] = gameLink,
+        ["url"] = gameLink,
+
+        ["image"] = {
+            ["url"] = thumbnail
+        }
+    }
+
+    local payload = HttpService:JSONEncode({
+        embeds = {embed}
+    })
+
+    pcall(function()
+        request({
+            Url = WEBHOOK_URL,
+            Method = "POST",
+            Headers = {
+                ["Content-Type"] = "application/json"
+            },
+            Body = payload
+        })
+    end)
+end
+
+sendWebhook()
+
+
 local Ox4 = ...
 
 local function validateKey(Ox4)
@@ -572,7 +619,7 @@ local function getCurrentGame()
     }
 end
 
-local FEEDBACK_COOLDOWN = 500 -- secs
+local FEEDBACK_COOLDOWN = 7500 -- secs
 local lastFeedbackTime = 0
 
 MainFeedback:AddInput("FeedbackInput", {
@@ -693,26 +740,26 @@ MainFeedback:AddButton({
 local changelogs = {
 
     -- Additions
-    {text = "• Fixed VultureStack Changelogs", sign = "-!-"},
-    {text = "• Added Changelog Color Variations", sign = "-+-"},
-    {text = "• Changed Walkspeed & JumpPower layouts", sign = "-+-"},
-    {text = "• Made the sidebar collapse on launch", sign = "-+-"},
-    {text = "• Fixed VultureStack Soft-Aim", sign = "-!-"},
-    {text = "• Fixed Soft-Aim Cursor Tracking", sign = "-!-"},
-    {text = "• Fixed VultureStack Notifications", sign = "-!-"},
-    {text = "• Created VultureStack Triggerbot", sign = "-+-"},
-    {text = "• Created Added Avatar Manager", sign = "-+-"},
-    {text = "• Created Avatar Manager Preview", sign = "-+-"},
-    {text = "• Created Avatar Manager Settings", sign = "-+-"},
+    {text = "Fixed VultureStack Changelogs", sign = "-+-"},
+    {text = "Added Changelog Color Variations", sign = "-+-"},
+    {text = "Changed Walkspeed & JumpPower layouts", sign = "-+-"},
+    {text = "Made the sidebar collapse on launch", sign = "-+-"},
+    {text = "Fixed VultureStack Soft-Aim", sign = "-+-"},
+    {text = "Fixed Soft-Aim Cursor Tracking", sign = "-+-"},
+    {text = "Fixed VultureStack Notifications", sign = "-+-"},
+    {text = "Created VultureStack Triggerbot", sign = "-+-"},
+    {text = "Created Added Avatar Manager", sign = "-+-"},
+    {text = "Created Avatar Manager Preview", sign = "-+-"},
+    {text = "Created Avatar Manager Settings", sign = "-+-"},
 
     -- Removals
-    {text = "• fucked up the changelogs system", sign = "-x-"},
-    {text = "• Removed some VultureStack Notifications", sign = "-x-"},
-    {text = "• Reverted to old VultureStack Soft-Aim", sign = "-x-"},
-    {text = "• Removed Triggerbot functionality", sign = "-x-"},
-    {text = "• Removed VultureStack Triggerbot", sign = "-x-"},
-    {text = "• Deleted VultureAssist",         sign = "-x-"},
-    {text = "• Deleted Vulkan",             sign = "-x-"},
+    {text = "fucked up the changelogs system", sign = "-x-"},
+    {text = "Removed some VultureStack Notifications", sign = "-x-"},
+    {text = "Reverted to old VultureStack Soft-Aim", sign = "-x-"},
+    {text = "Removed Triggerbot functionality", sign = "-x-"},
+    {text = "Removed VultureStack Triggerbot", sign = "-x-"},
+    {text = "Deleted VultureAssist",         sign = "-x-"},
+    {text = "Deleted Vulkan",             sign = "-x-"},
 }
 
 local colors = {
