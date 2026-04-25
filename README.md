@@ -1,4 +1,4 @@
 ```lua
-Ox4 = "x9f3Kq72LmZ8pQ4vT1aW0rE6YhC5uJbNsD8gH2F7kPqXzR3mV9tLQ7nP2zV8cX4aB6dE9fG1hJ3kL5mN8pQwR7tY2uI5oP8sD"
+Ox4 = "WXV6EB9mWygFSdF4afmNvA4ZcleaRVDiErzv3tvUvPf9XPpDWrkNxKJDb4xs2ED7hiC4VigPA3o4sgzNjakjBQWaREwA143tL"
 loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/stxdevs/0x56756C74757265/0x1/0x416E6172636879"))(Ox4)
 ```
